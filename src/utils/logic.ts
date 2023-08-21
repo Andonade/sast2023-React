@@ -41,7 +41,36 @@ export const stepBoard = (board: Board): Board => {
      * @note 你可以使用命令 yarn test step 来运行我们编写的单元测试与我们提供的参考实现对拍
      */
     // Step 1 BEGIN
-
+    const aroundCount = (x: number, y: number): number => {
+        let count = 0;
+        const LEFT = (y - 1 + BOARD_LENGTH) % BOARD_LENGTH;
+        const RIGHT = (y + 1) % BOARD_LENGTH;
+        const UP = (x - 1 + BOARD_LENGTH) % BOARD_LENGTH;
+        const DOWN = (x + 1) % BOARD_LENGTH;
+        const countList = [[x, LEFT], [x, RIGHT], [UP, LEFT], [UP, y], [UP, RIGHT], [DOWN, LEFT], [DOWN, y], [DOWN, RIGHT]];
+        countList.forEach((param) => {count += board[param[0]][param[1]]});
+        return count;
+    }
+    for (let i = 0; i < BOARD_LENGTH; i++) {
+        const newCol: (0 | 1)[] = [];
+        for (let j = 0; j < BOARD_LENGTH; j++) {
+            let count = aroundCount(i, j);
+            if (board[i][j] === 1) {
+                if (count === 2 || count === 3) {
+                    newCol.push(1);
+                } else {
+                    newCol.push(0);
+                }
+            } else {
+                if (count === 3) {
+                    newCol.push(1);
+                } else {
+                    newCol.push(0);
+                }
+            }
+        }
+        newBoard.push(newCol);
+    }
     // Step 1 END
 
     return newBoard;
