@@ -75,7 +75,13 @@ const BoardScreen = () => {
 
     const switchAutoPlay = () => {
         // Step 3 BEGIN
-
+        if (autoPlay) {
+            clearInterval(timerRef.current);
+            setAutoPlay(false);
+        } else {
+            timerRef.current = setInterval(() => setBoard((board) => stepBoard(board)), 300);
+            setAutoPlay(true);
+        }
         // Step 3 END
     };
 
