@@ -26,7 +26,7 @@ const LoginScreen = () => {
             .then((res) => {
                 if (Number(res.code) === 0) {
                     // Step 4 BEGIN
-
+                    dispatch(setToken(res.token));
                     // Step 4 END
 
                     dispatch(setName(userName));

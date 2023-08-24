@@ -40,7 +40,14 @@ export const request = async (
      * @todo [Step 4] 请在下述两处代码缺失部分以正确根据 `needAuth` 参数读取 JWT 信息并构建请求头
      */
     // Step 4 BEGIN
-
+    const jwt_token = store.getState().auth.token;
+    if (!jwt_token && needAuth) {
+        throw new NetworkError(
+            NetworkErrorType.UNAUTHORIZED,
+            "[401]",
+        )
+    }
+    const headers: HeadersInit = needAuth ? {Authorization: jwt_token} : {};
     // Step 4 END
 
     const response = await fetch(url, {
@@ -48,7 +55,7 @@ export const request = async (
         body: body && JSON.stringify(body),
 
         // Step 4 BEGIN
-
+        headers,
         // Step 4 END
     });
 
