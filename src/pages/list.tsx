@@ -5,6 +5,8 @@ import { request } from "../utils/network";
 import { BoardMetaData } from "../utils/types";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
+import board from "../redux/board";
+import { timeStamp } from "console";
 
 const ListScreen = () => {
     /**
@@ -44,6 +46,13 @@ const ListScreen = () => {
         // Step 6 END
     };
 
+    const convert2date = (timeStamp: number) => {
+        const date = new Date(timeStamp * 1000);
+        return `
+            ${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}
+        `;
+    };
+
     return refreshing ? (
         <p> Loading... </p>
     ) : (
@@ -62,7 +71,30 @@ const ListScreen = () => {
             ) : (
                 <div style={{ display: "flex", flexDirection: "column" }}>{
                     // Step 5 BEGIN
-
+                    boardList.map((board) => (
+                        <div>
+                            <p>ID: {board.id}</p>
+                            <p>Name: {board.boardName}</p>
+                            <p>Created by: {board.userName}</p>
+                            <p>Created at: {convert2date(board.createdAt)}</p>
+                            <div style={{ display: "flex", flexDirection: "row"}}>
+                                <button onClick={() => router.push(`/?id=${board.id}`)}>
+                                    Play it
+                                </button>
+                                {board.userName === userName && (
+                                    <button onClick={() => {
+                                        deleteBoard(board.id);
+                                        alert(DELETE_SUCCESS);
+                                        router.push("/list")}}>
+                                        Delete it
+                                    </button>
+                                )}
+                                <button onClick={() => router.push(`/list?name=${board.userName}`)}>
+                                    View this user
+                                </button>
+                            </div>
+                        </div>
+                    ))
                     // Step 5 END
                 }</div>
             )}
