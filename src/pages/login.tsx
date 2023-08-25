@@ -3,6 +3,8 @@ import { BACKEND_URL, FAILURE_PREFIX, LOGIN_FAILED, LOGIN_SUCCESS_PREFIX } from 
 import { useRouter } from "next/router";
 import { setName, setToken } from "../redux/auth";
 import { useDispatch } from "react-redux";
+import { Button, Input, Space} from "antd";
+import { SP } from "next/dist/shared/lib/utils";
 
 const LoginScreen = () => {
     /**
@@ -45,23 +47,23 @@ const LoginScreen = () => {
     };
 
     return (
-        <>
-            <input
-                type="text"
-                placeholder="User name"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
+        <Space direction="vertical">
+            <Input
+            style={{width: "100%"}}
+            placeholder="User name"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
             />
-            <input
-                type="password"
+            <Input.Password
+                style={{width: "100%"}}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={login} disabled={userName === "" || password === ""}>
+            <Button onClick={login} disabled={userName === "" || password === ""}>
                 Register/Login
-            </button>
-        </>
+            </Button>
+        </Space>
     );
 };
 

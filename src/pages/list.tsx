@@ -6,7 +6,7 @@ import { BoardMetaData } from "../utils/types";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 import board from "../redux/board";
-import { timeStamp } from "console";
+import { Button } from "antd";
 
 const ListScreen = () => {
     /**
@@ -42,11 +42,14 @@ const ListScreen = () => {
 
     const deleteBoard = (id: number) => {
         // Step 6 BEGIN
-
+        setRefreshing(true);
+        request(`/api/boards/${id}`, "DELETE", true)
+            .catch((err) => alert(FAILURE_PREFIX + err))
+            .finally(() => setRefreshing(false));
         // Step 6 END
     };
 
-    const convert2date = (timeStamp: number) => {
+    const convert2Date = (timeStamp: number) => {
         const date = new Date(timeStamp * 1000);
         return `
             ${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}
@@ -58,13 +61,13 @@ const ListScreen = () => {
     ) : (
         <>
             {selectedUserName !== undefined && <h4> Boards of {selectedUserName} </h4>}
-            <button onClick={() => router.push("/")}>
+            <Button onClick={() => router.push("/")} >
                 Go back to free mode
-            </button>
+            </Button>
             {selectedUserName !== undefined && (
-                <button onClick={() => router.push("/list")}>
+                <Button onClick={() => router.push("/list")}>
                     Go to full list
-                </button>
+                </Button>
             )}
             {boardList.length === 0 ? (
                 <p> Empty list. </p>
@@ -76,22 +79,22 @@ const ListScreen = () => {
                             <p>ID: {board.id}</p>
                             <p>Name: {board.boardName}</p>
                             <p>Created by: {board.userName}</p>
-                            <p>Created at: {convert2date(board.createdAt)}</p>
+                            <p>Created at: {convert2Date(board.createdAt)}</p>
                             <div style={{ display: "flex", flexDirection: "row"}}>
-                                <button onClick={() => router.push(`/?id=${board.id}`)}>
+                                <Button onClick={() => router.push(`/?id=${board.id}`)}>
                                     Play it
-                                </button>
+                                </Button>
                                 {board.userName === userName && (
-                                    <button onClick={() => {
+                                    <Button onClick={() => {
                                         deleteBoard(board.id);
                                         alert(DELETE_SUCCESS);
                                         router.push("/list")}}>
                                         Delete it
-                                    </button>
+                                    </Button>
                                 )}
-                                <button onClick={() => router.push(`/list?name=${board.userName}`)}>
+                                <Button onClick={() => router.push(`/list?name=${board.userName}`)}>
                                     View this user
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     ))

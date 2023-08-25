@@ -7,6 +7,7 @@ import { NetworkError, NetworkErrorType, request } from "../utils/network";
 import { RootState } from "../redux/store";
 import { resetBoardCache, setBoardCache } from "../redux/board";
 import { useSelector, useDispatch } from "react-redux";
+import { Button, Input, Space } from "antd";
 
 const BoardScreen = () => {
     /**
@@ -114,7 +115,7 @@ const BoardScreen = () => {
     return refreshing ? (
         <p> Loading... </p>
     ) : (
-        <>
+        <Space direction="vertical" size="large">
             {id === undefined ? (
                 <h4> Free Mode </h4>
             ) : (
@@ -125,47 +126,47 @@ const BoardScreen = () => {
             }} />
             <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                    <button onClick={() => setBoard((board) => stepBoard(board))} disabled={autoPlay}>
+                    <Button onClick={() => setBoard((board) => stepBoard(board))} disabled={autoPlay}>
                         Step the board
-                    </button>
-                    <button onClick={() => setBoard(getBlankBoard())} disabled={autoPlay}>
+                    </Button>
+                    <Button onClick={() => setBoard(getBlankBoard())} disabled={autoPlay}>
                         Clear the board
-                    </button>
+                    </Button>
                     {id !== undefined && (
-                        <button onClick={() => setBoard(initBoard)} disabled={autoPlay}>
+                        <Button onClick={() => setBoard(initBoard)} disabled={autoPlay}>
                             Undo all changes
-                        </button>
+                        </Button>
                     )}
-                    <button onClick={switchAutoPlay}>
+                    <Button onClick={switchAutoPlay}>
                         {autoPlay ? "Stop" : "Start"} auto play
-                    </button>
+                    </Button>
                 </div>
                 {id === undefined && (
                     <div style={{ display: "flex", flexDirection: "row" }}>
-                        <input
+                        <Input
                             type="text"
                             placeholder="Name of this Board"
                             value={boardName}
                             disabled={autoPlay}
                             onChange={(e) => setBoardName(e.target.value)}
                         />
-                        <button onClick={saveBoard} disabled={autoPlay || boardName === ""}>
+                        <Button onClick={saveBoard} disabled={autoPlay || boardName === ""}>
                             Save board
-                        </button>
+                        </Button>
                     </div>
                 )}
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                    <button onClick={() => router.push("/list")}>
+                    <Button onClick={() => router.push("/list")}>
                         Go to full list
-                    </button>
+                    </Button>
                     {id !== undefined && (
-                        <button onClick={() => router.push("/")}>
+                        <Button onClick={() => router.push("/")}>
                             Go back to free mode
-                        </button>
+                        </Button>
                     )}
                 </div>
             </div>
-        </>
+        </Space>
     );
 };
 

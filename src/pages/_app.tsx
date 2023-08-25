@@ -5,6 +5,7 @@ import store, { RootState } from "../redux/store";
 import { resetAuth } from "../redux/auth";
 import { useRouter } from "next/router";
 import { Provider, useSelector, useDispatch } from "react-redux";
+import { Button } from "antd";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const App = ({ Component, pageProps }: AppProps) => {
@@ -22,12 +23,12 @@ const App = ({ Component, pageProps }: AppProps) => {
                 {router.pathname !== "/login" && (auth.token ? (
                     <>
                         <p>Logged in as user name: {auth.name}</p>
-                        <button onClick={() => dispatch(resetAuth())}>
+                        <Button onClick={() => dispatch(resetAuth())}>
                             Logout
-                        </button>
+                        </Button>
                     </>
                 ) : (
-                    <button onClick={() => router.push("/login")}>Go to login</button>
+                    <Button onClick={() => router.push("/login")}>Go to login</Button>
                 ))}
             </div>
         </>
