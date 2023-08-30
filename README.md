@@ -1,8 +1,8 @@
 # Conway's game of life (React HW)
 
-框架 By Ashitemaru([github](https://github.com/ashitemaru))
+框架 By [Ashitemaru](https://github.com/ashitemaru)
 
-代码填空 By Andonade([github](https://github.com/andonade))
+代码填空 By [Andonade](https://github.com/andonade)
 
 改编自 2023 春学期《软件工程》课程小作业。
 
